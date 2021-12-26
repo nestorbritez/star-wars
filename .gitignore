@@ -9,7 +9,9 @@
 /coverage
 
 # build
-# /dist
+/dist
+/worker
+wrangler.toml
 
 # misc
 .DS_Store

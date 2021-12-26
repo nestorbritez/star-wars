@@ -1,7 +1,7 @@
 import tw from 'tailwind-styled-components'
 
 import Card from '@/components/ListingCard'
-import heroImage from '@/images/hero.jpg'
+import heroImage from '@/images/hero.webp'
 import { useListingPageData } from '@/shared/hooks/useData'
 import { Headings, Title } from '@/shared/ui/Headings'
 import Loading from '@/shared/ui/Loading'
