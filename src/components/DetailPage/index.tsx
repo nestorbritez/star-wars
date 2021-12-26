@@ -3,10 +3,11 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import tw from 'tailwind-styled-components'
 
+import WarningMessage from '@/components/WarningMessage'
 import logoImage from '@/images/favicon.svg'
 import { useDetailPageData } from '@/shared/hooks/useData'
 import { TFilm } from '@/shared/services/api'
-import { CardSection } from '@/shared/ui/Card'
+import { CardSection as CardArticle } from '@/shared/ui/Card'
 import { Headings, Subtitle, Title } from '@/shared/ui/Headings'
 import Loading from '@/shared/ui/Loading'
 
@@ -29,14 +30,14 @@ const Poster = tw.img`
   rounded-2xl
   shadow-xl
 `
-const Card = tw(CardSection)`
+const Card = tw(CardArticle)`
   flex flex-col sm:flex-row
   gap-7 sm:p-7 sm:mx-4
   sm:max-h-96
 `
 const Content = tw.div`
   flex flex-col
-  text-slate-500
+  text-slate-600
   gap-7 m-7 sm:m-0
 `
 const TextContent = tw.p`
@@ -54,7 +55,7 @@ const StyledTitle = tw(Title)`
 `
 const StyledSubtitle = tw(Subtitle)`
   text-lg
-  text-slate-500
+  text-slate-600
   flex items-center
   gap-4
 `
@@ -68,32 +69,40 @@ const GoBack = tw.a`
   flex gap-2 items-center
   uppercase tracking-wider
   text-sm
-  text-slate-500
+  text-slate-400
 `
+
 const StyledLeftArrow = tw(ArrowLeftIcon)`
   w-5 h-5
 `
 
 export default function DetailPage() {
-  const { seoId = '' } = useParams()
+  const { seoId = 'id' } = useParams()
   const id = +seoId.split('-').reverse()[0]
-  const { isLoading, data: detail = {} as TFilm } = useDetailPageData(
-    isNaN(id) ? Math.floor(Math.random() * 6) + 1 : id
-  ) // Get a random id if doesn't exist
+  const { isLoading, data: detail = {} as TFilm } = useDetailPageData(id) // Get a random id if doesn't exist
 
   if (isLoading) {
     return <Loading>Loading...</Loading>
   }
 
+  if (!detail || Object.keys(detail).length === 0) {
+    return (
+      <WarningMessage>
+        <p>Oh no!</p>
+        <p>R2D2 is having troubles displaying this page.</p>
+      </WarningMessage>
+    )
+  }
+
   return (
-    <Container>
+    <Container aria-label="Detail Page">
       <GoBack href="/">
         <StyledLeftArrow /> Go Back
       </GoBack>
-      <Logo src={logoImage} />
+      <Logo src={logoImage} title="Star Wars" width={288} height={123} />
 
       {isNaN(id) && (
-        <p>
+        <p role="alert" aria-label="Page not found">
           We couldn&apos;t found the film you&apos;re looking for, but we picked
           a random film for you 😅
         </p>
@@ -101,7 +110,12 @@ export default function DetailPage() {
 
       <Card>
         <PosterContainer>
-          <Poster src={detail.filmImageUrl} />
+          <Poster
+            src={detail.filmImageUrl}
+            title={detail.title}
+            width={400}
+            height={550}
+          />
         </PosterContainer>
 
         <Content>
@@ -109,12 +123,14 @@ export default function DetailPage() {
             <StyledTitle>Star Wars: {detail.title}</StyledTitle>
             <StyledSubtitle>
               <span>By {detail.director}</span>
-              <Divider />
+              <Divider role="separator" />
               <span>{detail.releaseDate?.substring(0, 4)}</span>
             </StyledSubtitle>
           </StyledHeadings>
 
-          <TextContent>{detail.openingCrawl}</TextContent>
+          <TextContent role="region" aria-label="Opening">
+            {detail.openingCrawl}
+          </TextContent>
         </Content>
       </Card>
     </Container>

@@ -27,7 +27,7 @@ persistQueryClient({
 })
 
 const Footer = tw.footer`
-  text-slate-500
+  text-slate-400
   text-center
   my-8
 `

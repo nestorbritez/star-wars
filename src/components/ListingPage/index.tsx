@@ -6,6 +6,8 @@ import { useListingPageData } from '@/shared/hooks/useData'
 import { Headings, Title } from '@/shared/ui/Headings'
 import Loading from '@/shared/ui/Loading'
 
+import WarningMessage from '../WarningMessage'
+
 const Main = tw.main`
   flex flex-col items-center
   gap-7 mb-12 md:my-12
@@ -31,13 +33,22 @@ const Hero = tw.img`
 export default function Listing() {
   const { isLoading, data: listing = [] } = useListingPageData()
 
+  if (!isLoading && (!listing || !listing.length)) {
+    return (
+      <WarningMessage>
+        <p>The server is not responding as expected.</p>
+        <p>Patience you must have my young Padawan.</p>
+      </WarningMessage>
+    )
+  }
+
   return (
     <Main aria-label="Listing Page">
       <Hero
         src={heroImage}
-        width={768}
-        height={320}
-        aria-label="Star Wars Hero"
+        width={1920}
+        height={1200}
+        role="banner"
         title="May the Force be with you"
       />
 
@@ -49,10 +60,10 @@ export default function Listing() {
       {isLoading ? (
         <Loading>Loading films...</Loading>
       ) : (
-        <Grid role="grid">
+        <Grid role="list">
           {listing.map(({ id, title, filmImageUrl }) => (
             <Card
-              role="gridcell"
+              role="listitem"
               key={title}
               filmImageUrl={filmImageUrl}
               title={title}

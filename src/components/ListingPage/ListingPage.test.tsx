@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 
 import { useListingPageData } from '@/shared/hooks/useData'
-import { film } from '@/shared/test/mockData'
+import { mockFilm } from '@/shared/test/mockData'
 
 import ListingPage from './index'
 
@@ -14,16 +14,15 @@ describe('Loading - Listing Page', () => {
     // Spy on the response from the custom hook
     ;(useListingPageData as jest.Mock).mockReturnValue({
       isLoading: true,
-      refetch: jest.fn(),
-      data: [],
+      data: [mockFilm],
     })
 
     render(<ListingPage />)
   })
 
   test('is displaying the loading', () => {
-    const target = screen.getByRole('contentinfo')
-    expect(target).toHaveAccessibleName('Loading')
+    const target = screen.getByRole('status', { name: 'Loading' })
+    expect(target).toBeInTheDocument()
   })
 })
 
@@ -32,8 +31,7 @@ describe('Loaded - Listing Page', () => {
     // Spy on the response from the custom hook
     ;(useListingPageData as jest.Mock).mockReturnValue({
       isLoading: false,
-      refetch: jest.fn(),
-      data: [film],
+      data: [mockFilm],
     })
 
     render(<ListingPage />)
@@ -45,8 +43,8 @@ describe('Loaded - Listing Page', () => {
   })
 
   test('is rendering hero component', () => {
-    const target = screen.getByRole('img', { name: 'Star Wars Hero' })
-    expect(target).toHaveAttribute('title', 'May the Force be with you')
+    const target = screen.getByRole('banner')
+    expect(target).toHaveAccessibleName('May the Force be with you')
   })
 
   test('is rendering heading', () => {
@@ -54,14 +52,34 @@ describe('Loaded - Listing Page', () => {
     expect(target).toBeInTheDocument()
   })
 
-  test('is rendering a grid with at least 1 child', () => {
-    const target = screen.getByRole('grid')
+  test('is rendering a list with at least 1 child', () => {
+    const target = screen.getByRole('list')
     expect(target).toBeInTheDocument()
     expect(target.childElementCount).toBeGreaterThan(0)
   })
 
-  test('is rendering the card on the grid', () => {
-    const target = screen.getByRole('gridcell')
+  test('is rendering the card on the list', () => {
+    const target = screen.getByRole('listitem')
     expect(target).toBeInTheDocument()
+  })
+})
+
+describe('Server Error - Detail Page', () => {
+  beforeEach(() => {
+    ;(useListingPageData as jest.Mock).mockReturnValue({
+      isLoading: false,
+      data: undefined,
+    })
+
+    render(<ListingPage />)
+  })
+
+  test('is rendering warning message', () => {
+    const target = screen.getByRole('alert')
+    expect(target).toHaveAccessibleName('Warning')
+    expect(target).toHaveTextContent(
+      'The server is not responding as expected.' +
+        'Patience you must have my young Padawan.'
+    )
   })
 })

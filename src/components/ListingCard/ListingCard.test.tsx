@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react'
 
-import { film } from '@/shared/test/mockData'
+import { mockFilm } from '@/shared/test/mockData'
 
 import ListingCard from './index'
 
 describe('Listing Card', () => {
   beforeEach(() => {
-    const { title, filmImageUrl, id: filmId } = film
+    const { title, filmImageUrl, id: filmId } = mockFilm
 
     render(
       <ListingCard
@@ -18,12 +18,7 @@ describe('Listing Card', () => {
     )
   })
 
-  test('is rendering main container', () => {
-    const target = screen.getByRole('main')
-    expect(target).toBeInTheDocument()
-  })
-
-  test('is rendering link component', () => {
+  test('is rendering main link component', () => {
     const target = screen.getByRole('link')
     expect(target).toHaveAccessibleName('Star Wars: The Rise of Skywalker')
   })

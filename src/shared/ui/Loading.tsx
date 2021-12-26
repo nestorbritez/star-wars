@@ -24,7 +24,7 @@ type LoadingProps = React.HTMLAttributes<React.FC>
 
 export default function Loading({ children }: LoadingProps) {
   return (
-    <Container role="contentinfo" aria-label="Loading">
+    <Container role="status" aria-busy="true" aria-label="Loading">
       <Card>
         <Spinner /> {children}
       </Card>
