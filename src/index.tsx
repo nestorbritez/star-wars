@@ -1,4 +1,4 @@
-import './main.css'
+import 'tailwindcss/tailwind.css'
 
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'

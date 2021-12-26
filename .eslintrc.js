@@ -26,6 +26,8 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'prettier', 'simple-import-sort'],
   rules: {
+    'func-names': ['error', 'always'],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     'sort-imports': 'off',
