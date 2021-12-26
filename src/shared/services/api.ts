@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-const { VITE_API_URL } = import.meta.env
+const { VITE_API_URL } = process.env
 
 export function fetchFromApi(resource: string) {
   return fetch(VITE_API_URL + resource, {

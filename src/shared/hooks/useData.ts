@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query'
-import { fetchFilms, fetchOneFilm, TFilm } from 'shared/services/api'
+
+import { fetchFilms, fetchOneFilm, TFilm } from '@/shared/services/api'
 
 export function useListingPageData() {
   return useQuery('films', fetchFilms)

@@ -1,12 +1,13 @@
-import DetailPage from 'components/DetailPage'
-import ListingPage from 'components/ListingPage'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { createWebStoragePersistor } from 'react-query/createWebStoragePersistor-experimental'
 import { persistQueryClient } from 'react-query/persistQueryClient-experimental'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import tw from 'tailwind-styled-components'
 
-const { VITE_DETAIL_PAGE_PATH } = import.meta.env
+import DetailPage from '@/components/DetailPage'
+import ListingPage from '@/components/ListingPage'
+
+const { VITE_DETAIL_PAGE_PATH } = process.env
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,7 +45,7 @@ export default function App() {
         </Routes>
       </BrowserRouter>
 
-      <Footer>
+      <Footer aria-label="footer">
         <p>Made with ❤️ in Argentina</p>
       </Footer>
     </QueryClientProvider>

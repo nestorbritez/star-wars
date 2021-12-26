@@ -1,13 +1,14 @@
-import logoImage from 'images/favicon.svg'
+import { ArrowLeftIcon } from '@heroicons/react/solid'
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { useDetailPageData } from 'shared/hooks/useData'
-import { TFilm } from 'shared/services/api'
-import { CardSection } from 'shared/ui/Card'
-import { Headings, Subtitle, Title } from 'shared/ui/Headings'
-import { LeftArrow } from 'shared/ui/Icons'
-import Loading from 'shared/ui/Loading'
 import tw from 'tailwind-styled-components'
+
+import logoImage from '@/images/favicon.svg'
+import { useDetailPageData } from '@/shared/hooks/useData'
+import { TFilm } from '@/shared/services/api'
+import { CardSection } from '@/shared/ui/Card'
+import { Headings, Subtitle, Title } from '@/shared/ui/Headings'
+import Loading from '@/shared/ui/Loading'
 
 const Container = tw.main`
   flex flex-col items-center
@@ -69,18 +70,16 @@ const GoBack = tw.a`
   text-sm
   text-slate-500
 `
-const StyledLeftArrow = tw(LeftArrow)`
+const StyledLeftArrow = tw(ArrowLeftIcon)`
   w-5 h-5
 `
 
 export default function DetailPage() {
   const { seoId = '' } = useParams()
   const id = +seoId.split('-').reverse()[0]
-  const {
-    isLoading = false,
-    data: detail = {} as TFilm,
-    // refetch, // updates the cache
-  } = useDetailPageData(isNaN(id) ? Math.floor(Math.random() * 6) + 1 : id) // Get a random id if doesn't exist
+  const { isLoading, data: detail = {} as TFilm } = useDetailPageData(
+    isNaN(id) ? Math.floor(Math.random() * 6) + 1 : id
+  ) // Get a random id if doesn't exist
 
   if (isLoading) {
     return <Loading>Loading...</Loading>

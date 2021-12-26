@@ -1,7 +1,6 @@
+import { RefreshIcon } from '@heroicons/react/solid'
 import React from 'react'
 import tw from 'tailwind-styled-components'
-
-import { RefreshIcon } from './Icons'
 
 const Container = tw.div`
   flex items-center
@@ -25,7 +24,7 @@ type LoadingProps = React.HTMLAttributes<React.FC>
 
 export default function Loading({ children }: LoadingProps) {
   return (
-    <Container>
+    <Container role="contentinfo" aria-label="Loading">
       <Card>
         <Spinner /> {children}
       </Card>

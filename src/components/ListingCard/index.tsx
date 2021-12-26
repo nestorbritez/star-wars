@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react'
-import { TFilm } from 'shared/services/api'
-import { seoFriendly as toSeoFriendly } from 'shared/services/utils'
 import tw from 'tailwind-styled-components'
 
-const { VITE_DETAIL_PAGE_PATH } = import.meta.env
+import { TFilm } from '@/shared/services/api'
+import { seoFriendly as toSeoFriendly } from '@/shared/services/utils'
+
+const { VITE_DETAIL_PAGE_PATH } = process.env
 
 const Container = tw.section`
   flex flex-col
@@ -27,7 +28,7 @@ type CardProps = React.HTMLAttributes<React.FC> &
     filmId: TFilm['id']
   }
 
-export function Card({ filmId, filmImageUrl, title }: CardProps) {
+export default function Card({ filmId, filmImageUrl, title, role }: CardProps) {
   const cardLink = useMemo(
     () => `/${VITE_DETAIL_PAGE_PATH}/${toSeoFriendly(title, filmId)}`,
     [filmId, title]
@@ -42,11 +43,13 @@ export function Card({ filmId, filmImageUrl, title }: CardProps) {
      * The `role` attribute is used to identify the purpose of the element.
      * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section
      */
-    <a title={title} href={cardLink}>
-      <Container>
-        <Title>{title}</Title>
-        <Photo src={filmImageUrl} alt={title} width="234" height="321" />
-      </Container>
-    </a>
+    <div role={role}>
+      <a title={title} href={cardLink}>
+        <Container>
+          <Title>{title}</Title>
+          <Photo src={filmImageUrl} alt={title} width="234" height="321" />
+        </Container>
+      </a>
+    </div>
   )
 }

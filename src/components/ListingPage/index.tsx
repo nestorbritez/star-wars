@@ -1,10 +1,10 @@
-import { Card } from 'components/ListingCard'
-import heroImage from 'images/hero.jpg'
-import { useEffect } from 'react'
-import { useListingPageData } from 'shared/hooks/useData'
-import { Headings, Title } from 'shared/ui/Headings'
-import Loading from 'shared/ui/Loading'
 import tw from 'tailwind-styled-components'
+
+import Card from '@/components/ListingCard'
+import heroImage from '@/images/hero.jpg'
+import { useListingPageData } from '@/shared/hooks/useData'
+import { Headings, Title } from '@/shared/ui/Headings'
+import Loading from '@/shared/ui/Loading'
 
 const Main = tw.main`
   flex flex-col items-center
@@ -28,20 +28,18 @@ const Hero = tw.img`
   md:rounded-2xl
 `
 
-export function Listing() {
-  const {
-    isLoading = false,
-    data: listing = [],
-    refetch,
-  } = useListingPageData()
-
-  useEffect(() => {
-    refetch()
-  }, [refetch])
+export default function Listing() {
+  const { isLoading, data: listing = [] } = useListingPageData()
 
   return (
     <Main aria-label="Listing Page">
-      <Hero src={heroImage} />
+      <Hero
+        src={heroImage}
+        width={768}
+        height={320}
+        aria-label="Star Wars Hero"
+        title="May the Force be with you"
+      />
 
       <StyledHeadings>
         <Title>Star Wars Films</Title>
@@ -66,5 +64,3 @@ export function Listing() {
     </Main>
   )
 }
-
-export default Listing

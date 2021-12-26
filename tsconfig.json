@@ -1,12 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "types": ["vite/client"],
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "target": "esnext",
+    "types": ["vite/client", "jest", "testing-library__jest-dom"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": false,
     "skipLibCheck": true,
     "strict": true,
@@ -19,13 +15,11 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"],
+      "@/jest/*": ["../__jest__/*"],
+    }
   },
-  "include": [
-    "vite-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["vite-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
